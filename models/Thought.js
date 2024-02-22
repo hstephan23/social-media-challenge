@@ -11,7 +11,8 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now()
+            default: Date.now(),
+            get: displayDate
         },
         username: {
             type: String,
@@ -34,6 +35,11 @@ thoughtSchema
         return this.reactions.length;
     });
 
+function displayDate(createdAt) {
+    const date = new Date(createdAt);
+    return date.toUTCString;
+}
+
 const Thought = model('thought', thoughtSchema);
 
-modeul.exports = Thought;
+module.exports = Thought;

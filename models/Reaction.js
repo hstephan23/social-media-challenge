@@ -17,7 +17,8 @@ const reactionSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now()
+            default: Date.now(),
+            get: displayDate
         }
     },
     {
@@ -27,5 +28,10 @@ const reactionSchema = new Schema(
         id: false
     }
 );
+
+function displayDate(createdAt) {
+    const date = new Date(createdAt);
+    return date.toUTCString;
+};
 
 module.exports = reactionSchema;
