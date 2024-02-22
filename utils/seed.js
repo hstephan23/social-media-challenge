@@ -16,8 +16,8 @@ connection.once('open', async () => {
     let h = 0;
     for (let i = reactionBody.length - 1; i >= 0; i--){
         reactions.push({
-            reactionBody: reactionBody[i],
-            username: username[h] 
+            reactionBody: reactionBody[h],
+            username: username[i] 
         });
         h++;
     }
@@ -43,9 +43,9 @@ connection.once('open', async () => {
     }
 
     await User.collection.insertMany(users);
-
     await Thought.collection.insertMany(thoughts);
 
+    console.table(thoughts);
     console.table(users);
     console.info('Seeding complete! 🌱');
     process.exit(0);
