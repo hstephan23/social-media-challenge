@@ -65,5 +65,31 @@ router.delete('/:thoughtId', async (req, res) => {
     } catch (err) {
         res.status(400).json(err);
     }
-})
+});
+
+router.post('/:thoughtId/reactions', async (req, res) => {
+    try {
+        const addReaction = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $push: {reactions: req.body } },
+            { runValidators: true, new: true}
+        );
+        res.status(200).json(addReaction);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+// router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
+//     try {
+//         const removeReaction = await Thought.findOneAndUpdate(
+//             { _id: req.params.thoughtId },
+//             { $pull: {reactions: { _id: req.params.reactionId } } },
+//             { runValidators: true, new: true}
+//         );
+//         res.status(200).json(removeReaction);
+//     } catch (err) {
+//         res.status(400).json(err);
+//     }
+// })
 module.exports = router;
