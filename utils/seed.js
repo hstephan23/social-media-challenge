@@ -27,7 +27,7 @@ connection.once('open', async () => {
         thoughts.push({
             thoughtText: thoughtText[j],
             username: username[j],
-            reactions: reactions[j]
+            reactions: [reactions[j]],
         })
     };
 
@@ -37,7 +37,7 @@ connection.once('open', async () => {
         users.push({
             username: username[k], 
             email: email[k],
-            thoughts: thoughts[k],
+            thoughts: [thoughts[k]],
             friends: []
         })
     }
