@@ -1,4 +1,5 @@
 const connection = require('../config/connection');
+const { Types } = require('mongoose');
 const { Thought, User } = require('../models');
 const { username, email, thoughtText, reactionBody } = require('./data');
 
@@ -17,7 +18,9 @@ connection.once('open', async () => {
     for (let i = reactionBody.length - 1; i >= 0; i--){
         reactions.push({
             reactionBody: reactionBody[h],
-            username: username[i] 
+            username: username[i],
+            createdAt: new Date().toUTCString(),
+            reactionId: new Types.ObjectId()
         });
         h++;
     }
@@ -28,6 +31,8 @@ connection.once('open', async () => {
             thoughtText: thoughtText[j],
             username: username[j],
             reactions: [reactions[j]],
+            createdAt: new Date().toUTCString(),
+            _id: new Types.ObjectId()
         })
     };
 
@@ -37,7 +42,7 @@ connection.once('open', async () => {
         users.push({
             username: username[k], 
             email: email[k],
-            thoughts: [thoughts[k]],
+            thoughts: [thoughts[k]._id],
             friends: []
         })
     }
