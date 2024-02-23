@@ -32,25 +32,54 @@ router.post('/', async (req, res) => {
     }
 });
 
+// update user by userId
 router.put('/:userId', async (req, res) => {
     try {
         const userUpdate = await User.findOneAndUpdate(
             { _id: req.params.userId }, 
-            {$set: req.body},
-            {runValidators: true, new: true});
+            { $set: req.body },
+            { runValidators: true, new: true });
         res.status(200).json(userUpdate);
     } catch (err) {
         res.status(400).json(err);
     }
 });
 
+// delete route by userId
 router.delete('/:userId', async (req, res) => {
     try {
-        const deleteUser = await User.findOneAndDelete({ _id: req.params.userId});
+        const deleteUser = await User.findOneAndDelete({ _id: req.params.userId });
         res.status(200).json(deleteUser);
     } catch (err) {
         res.status(400).json(err);
     }
 });
 
+// add friend through UserId and friendId
+router.put('/:userId/friends/:friendId', async (req, res) => {
+    try {
+        const addFriend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $push: { friends: req.params.friendId } },
+            { runValidators: true, new: true}
+            );
+        res.status(200).json(addFriend);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+// delete friend through userId and friendId
+router.delete('/:userId/friends/:friendId', async (req, res) => {
+    try {
+        const removeFriend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } },
+            { runValidators: true, new: true}
+        );
+        res.status(200).json(removeFriend);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 module.exports = router;
